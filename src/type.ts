@@ -10,3 +10,11 @@ export type DealData = {
     currentDealerId: string;
   };
 };
+
+export type UserData = {
+  name: string;
+  email: string;
+  _id: string;
+};
+
+export type UiStatus = 'idle' | 'busy' | 'error';
