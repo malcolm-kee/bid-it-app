@@ -14,15 +14,16 @@
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "tailwindcss": "^1.2.0",
     "typescript": "~3.7.2",
     "unfetch": "^4.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm run build:css && react-scripts start",
+    "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --coverage --watchAll=false",
-    "eject": "react-scripts eject"
+    "build:css": "postcss src/css/tailwind.css -o src/css/main.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "postcss-cli": "^7.1.0"
   }
 }
