@@ -36,7 +36,7 @@ const ActiveDeal = (props: {
   }, [deal]);
 
   useDealBidEvent(deal._id, ev => {
-    if (ev.type === 'bid_accepted') {
+    if (ev.type === 'bid_accepted' && (!currentPrice || ev.payload.price > currentPrice)) {
       setCurrentPrice(ev.payload.price);
     }
     if (ev.type === 'bid_closed' && deal) {
