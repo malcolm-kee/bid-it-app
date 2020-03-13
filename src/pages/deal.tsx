@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { useDeal, useDealBidEvent } from '../services/deal.service';
 import { CastDealForm } from '../containers/cast-deal-form';
+import { formatDate } from '../lib/format-date';
+import { formatMoney } from '../lib/format-money';
+import { isNotNil } from '../lib/type-check';
+import { useDeal, useDealBidEvent } from '../services/deal.service';
 
 export const Deal = () => {
   const params = useParams<{ dealId: string }>();
@@ -26,11 +29,22 @@ export const Deal = () => {
       {!data && <p>Loading...</p>}
       {data && (
         <>
-          <h1 className="text-3xl md:text-5xl text-gray-700">{data.name}</h1>
-          {currentPrice && (
+          <h1 className="text-3xl md:text-5xl text-gray-700 text-center">{data.name}</h1>
+          <div className="mb-4 text-center">Will be closed at {formatDate(data.closedAt)}</div>
+          {/* TODO: Countdown Clock */}
+          {isNotNil(currentPrice) && (
             <>
-              <p className="text-xl">Current Price: {currentPrice.toLocaleString()}</p>
-              <CastDealForm dealId={params.dealId} minBid={currentPrice} />
+              <div className="text-center my-10">
+                <div>
+                  <small className="text-lg">Highest Bid:</small>
+                </div>
+                <p className="text-3xl">{formatMoney(currentPrice)}</p>
+              </div>
+              <div className="my-5">
+                <div className="rounded-md px-3 pt-2 shadow-lg border-t-2 border-teal-500">
+                  <CastDealForm dealId={params.dealId} minBid={currentPrice} />
+                </div>
+              </div>
             </>
           )}
         </>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { getDealUrl } from '../routes';
 import { useActiveDeals } from '../services/deal.service';
+import { formatDate } from '../lib/format-date';
 
 export const ActiveDeals = () => {
   const { data: deals } = useActiveDeals();
@@ -17,6 +18,7 @@ export const ActiveDeals = () => {
                 <div>
                   Current: {deal.currentBid ? deal.currentBid.currentPrice : deal.startingPrice}
                 </div>
+                <div>Will be closed at {formatDate(deal.closedAt)}</div>
               </Link>
             </li>
           ))}
