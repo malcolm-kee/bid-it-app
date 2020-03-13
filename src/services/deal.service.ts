@@ -13,15 +13,23 @@ export const useDeal = (dealId: string) => {
   return useSwr<DealData>(dealApiUrl + `/${dealId}`, fetchJson);
 };
 
-type DealSocketEvent = {
-  type: 'bid_rejected' | 'bid_accepted';
-  payload: {
-    bidId: string;
-    dealId: string;
-    dealerId: string;
-    price: number;
-  };
-};
+type DealSocketEvent =
+  | {
+      type: 'bid_rejected' | 'bid_accepted';
+      payload: {
+        bidId: string;
+        dealId: string;
+        dealerId: string;
+        price: number;
+      };
+    }
+  | {
+      type: 'bid_closed';
+      payload: {
+        bidId: string;
+        details: DealData;
+      };
+    };
 
 export const useDealBidEvent = (dealId: string, onEvent: (event: DealSocketEvent) => void) =>
   useSocket((process.env.REACT_APP_ACTIVE_DEAL_SOCKET_URL as string) + `?dealId=${dealId}`, {
