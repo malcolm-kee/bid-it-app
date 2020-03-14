@@ -2,6 +2,8 @@
 
 Frontend Application for [`bid-it`](https://github.com/malcolm-kee/bid-it)
 
+![Demo](assets/demo.gif)
+
 ## Getting Started
 
 ### Prerequisites
