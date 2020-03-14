@@ -47,6 +47,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.10",
     "autoprefixer": "^9.7.4",
-    "postcss-cli": "^7.1.0"
+    "postcss-cli": "^7.1.0",
+    "xhr-mock": "^2.5.1"
   }
 }
