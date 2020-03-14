@@ -6,6 +6,7 @@ import { formatMoney } from '../lib/format-money';
 import { isNotNil } from '../lib/type-check';
 import { useDeal, useDealBidEvent } from '../services/deal.service';
 import { DealData } from '../type';
+import { CountDown } from '../components/count-down';
 
 export const Deal = () => {
   const params = useParams<{ dealId: string }>();
@@ -51,7 +52,10 @@ const ActiveDeal = (props: {
     <>
       <h1 className="text-3xl md:text-5xl text-gray-700 text-center">{deal.name}</h1>
       <div className="mb-4 text-center">Will be closed at {formatDate(deal.closedAt)}</div>
-      {/* TODO: Countdown Clock */}
+      <CountDown
+        className="mx-auto max-w-sm text-center text-2xl"
+        endTime={new Date(deal.closedAt)}
+      />
       {isNotNil(currentPrice) && (
         <>
           <div className="text-center my-10">
