@@ -55,7 +55,7 @@ which will generates a `build` folder with all the static files for the applicat
 
 ## Built with
 
-- React
-- TypeScript
-- [Create React App](https://github.com/facebook/create-react-app)
-
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind](https://tailwindcss.com/) as CSS frameworks
+- [Create React App](https://create-react-app.dev/) for build pipeline, test framework setup, and ESLint configuration
