@@ -19,23 +19,31 @@ export const useSocket = (endpoint: string, { onMessage, onOpen, onError }: UseS
     setStatus('initializing');
     const ws = new WebSocket(endpoint);
     wsRef.current = ws;
-    ws.onopen = function onSocketOpen(ev) {
+    function onSocketOpen(ev: Event) {
       setStatus('connected');
       if (onOpenRef.current) {
         onOpenRef.current(ev);
       }
-    };
-    ws.onerror = function onSocketError(ev) {
+    }
+    function onSocketError(ev: Event) {
       setStatus('error');
       if (onErrorRef.current) {
         onErrorRef.current(ev);
       }
-    };
-    ws.onmessage = function onSocketMessage(event) {
+    }
+    function onSocketMessage(event: MessageEvent) {
       const data = JSON.parse(event.data);
       onMessageRef.current(data);
-    };
+    }
+    ws.addEventListener('open', onSocketOpen);
+    ws.addEventListener('error', onSocketError);
+    ws.addEventListener('message', onSocketMessage);
+
     return () => {
+      ws.removeEventListener('open', onSocketOpen);
+      ws.removeEventListener('error', onSocketError);
+      ws.removeEventListener('message', onSocketMessage);
+
       ws.close();
     };
   }, [endpoint, onMessageRef, onOpenRef, onErrorRef]);

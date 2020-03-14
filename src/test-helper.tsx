@@ -1,7 +1,26 @@
-import { render } from '@testing-library/react';
-import * as React from 'react';
+import { act, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
+import * as React from 'react';
 import { Router } from 'react-router-dom';
+
+function wrapAct<Arg extends any[]>(
+  action: (...args: Arg) => Promise<void>
+): (...args: Arg) => Promise<undefined>;
+function wrapAct<Arg extends any[]>(action: (...args: Arg) => void): (...args: Arg) => void;
+function wrapAct<Arg extends any[]>(action: (...args: Arg) => any) {
+  return function invokeAct(...args: Arg) {
+    return act(() => action(...args));
+  };
+}
+
+export const user = {
+  click: wrapAct(userEvent.click),
+  dblClick: wrapAct(userEvent.dblClick),
+  type: wrapAct(userEvent.type),
+  selectOptions: wrapAct(userEvent.selectOptions),
+  tab: wrapAct(userEvent.tab),
+};
 
 export const renderWithRouter = (ui: React.ReactNode, { initialRoute = '/' } = {}) => {
   const history = createMemoryHistory({

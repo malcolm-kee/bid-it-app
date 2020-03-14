@@ -48,6 +48,8 @@
     "@sheerun/mutationobserver-shim": "^0.3.3",
     "@types/classnames": "^2.2.10",
     "autoprefixer": "^9.7.4",
+    "jest-websocket-mock": "^2.0.2",
+    "mock-socket": "^9.0.3",
     "postcss-cli": "^7.1.0",
     "xhr-mock": "^2.5.1"
   }
