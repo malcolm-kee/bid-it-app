@@ -8,13 +8,13 @@ import { AuthProvider } from '../data/auth.data';
 import { renderWithRouter, user } from '../test-helper';
 import { Deal } from './deal';
 
-function setup() {
+function setup({ initialRoute = '/deal/dealId' } = {}) {
   return renderWithRouter(
     <AuthProvider>
       <Route path="/deal/:dealId" component={Deal} />
     </AuthProvider>,
     {
-      initialRoute: '/deal/dealId',
+      initialRoute,
     }
   );
 }
@@ -56,6 +56,22 @@ describe(`Deal page`, () => {
     const dealName = await findByText(mockDeal.name);
 
     expect(dealName).toBeVisible();
+  });
+
+  test(`show the details for closed deal`, async () => {
+    const mockDeal = { ...createMockDeal(), _id: 'closedDealId', closed: true };
+
+    xhrMock.get('http://localhost:3000/deal/closedDealId', {
+      status: 201,
+      body: JSON.stringify(mockDeal),
+    });
+
+    const { findByText, getByText } = setup({ initialRoute: '/deal/closedDealId' });
+
+    const dealName = await findByText(mockDeal.name);
+
+    expect(dealName).toBeVisible();
+    expect(getByText('There is no bid for this deal.')).toBeVisible();
   });
 
   test(`allows to login and cast bid`, async () => {
@@ -111,7 +127,7 @@ describe(`Deal page`, () => {
         status: 201,
         body: JSON.stringify(mockDeal),
       })
-      .post('http://localhost:3000/register', (req, res) => {
+      .post('http://localhost:3000/login', (req, res) => {
         const body = JSON.parse(req.body());
 
         return res.status(201).body(
@@ -126,12 +142,9 @@ describe(`Deal page`, () => {
 
     await findByText('Login first to place cast.');
 
-    user.click(getByText('Sign up'));
-
     await user.type(getByLabelText('Email'), 'malcolm@gmail.com');
-    await user.type(getByLabelText('Name'), 'Malcolm Kee');
 
-    user.click(getByText('Signup'));
+    user.click(getByText('Login'));
 
     await findByLabelText('Bid Amount');
 

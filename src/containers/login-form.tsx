@@ -13,14 +13,14 @@ export const LoginForm = () => {
 
   const handleSubmit = () => {
     setStatus('busy');
-    if (mode === 'login') {
-      login(email).catch(() => setStatus('error'));
-    } else {
-      register({
-        name,
-        email,
-      }).catch(() => setStatus('error'));
-    }
+    Promise.resolve(
+      mode === 'login'
+        ? login(email)
+        : register({
+            name,
+            email,
+          })
+    ).catch(() => setStatus('error'));
   };
 
   return (

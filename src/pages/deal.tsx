@@ -40,7 +40,7 @@ const ActiveDeal = (props: {
     if (ev.type === 'bid_accepted' && (!currentPrice || ev.payload.price > currentPrice)) {
       setCurrentPrice(ev.payload.price);
     }
-    if (ev.type === 'bid_closed' && deal) {
+    if (ev.type === 'bid_closed') {
       props.mutate({
         ...deal,
         closed: true,
